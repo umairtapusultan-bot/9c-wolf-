@@ -8,8 +8,7 @@ app.use(cors());
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Chat API
-app.post('/api/chat', async (req, res) => {
+app.post('/chat', async (req, res) => {
   try {
     const { message } = req.body;
     const completion = await openai.chat.completions.create({
@@ -18,17 +17,16 @@ app.post('/api/chat', async (req, res) => {
     });
     res.json({ reply: completion.choices[0].message.content });
   } catch (error) {
-    res.status(500).json({ error: 'Koi masla ho gaya hai.' });
+    res.status(500).json({ error: 'Koi masala ho gaya hai.' });
   }
 });
 
-// Image API
-app.post('/api/image', async (req, res) => {
+app.post('/image', async (req, res) => {
   try {
     const { prompt } = req.body;
     const response = await openai.images.generate({
       model: 'dall-e-3',
-      prompt: prompt,
+      prompt,
       n: 1,
       size: '1024x1024',
     });
@@ -40,3 +38,4 @@ app.post('/api/image', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`9c-wolf server chal raha hai port ${PORT} par`));
+  
